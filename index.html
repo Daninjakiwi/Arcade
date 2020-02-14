@@ -7,6 +7,8 @@
 <div style="width: 40%;margin-left: 30%;margin-top:3%">
 <canvas id="gameCanvas" width=1000px height=1100px style="width:100%;"></canvas>
 </div>
+<script src="scripts/graphics.js"></script>
+<script src="scripts/main_menu.js"></script>
 <script>
 window.onload=function() {	
 	//Gets the canvas element
@@ -19,33 +21,43 @@ window.onload=function() {
 	document.addEventListener("keypress",keyPress);
 
 	//Get a context to draw onto
-	context = canvas.getContext("2d");
+	var context = canvas.getContext("2d");
 	
 	game_size = canvas.width;
-	sidebar_height = canvas.width * 0.1;
+	navbar_height = canvas.width * 0.1;
+	
+	game = new MainMenu(new Graphics(context,game_size,game_size,0,navbar_height));
 	
 	//Start game loop
-	setInterval(gameLoop,1000/30);
+	setInterval(gameLoop,1000/60);
 }
 
 function gameLoop() {
-	context.fillStyle = "#5B5B5B";
-	context.fillRect(0,0,1000,1100);
+	game.update();
 }
 
 function mouseDown(event) {
 	var x =  event.offsetX * (canvas.width / canvas.clientWidth);
 	var y = event.offsetY * (canvas.height / canvas.clientHeight);
+	if (event.offsetY > navbar_height) {
+		game.mousePress({x:x,y:y-navbar_height,button:event.button,release:false});
+	}
 }
 
 function mouseUp(event) {
 	var x =  event.offsetX * (canvas.width / canvas.clientWidth);
 	var y = event.offsetY * (canvas.height / canvas.clientHeight);
+	if (event.offsetY > navbar_height) {
+		game.mousePress({x:x,y:y-navbar_height,button:event.button,release:true});
+	}
 }
 
 function mouseMove(event) {
 	var x =  event.offsetX * (canvas.width / canvas.clientWidth);
 	var y = event.offsetY * (canvas.height / canvas.clientHeight);
+	if (event.offsetY > navbar_height) {
+		game.mouseMove({x:x,y:y-navbar_height});
+	}
 }
 
 function keyPress(event) {
@@ -57,6 +69,8 @@ function keyPress(event) {
 	} else if (key.substr(0,5) == "Digit") {
 		key = key.substr(5);
 	}
+	
+	game.keyEvent({key:key,character:character});
 }
 
 </script>
