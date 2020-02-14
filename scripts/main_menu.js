@@ -52,7 +52,6 @@ class MainMenu {
 	}
 	
 	update() {
-		console.log(this.gfx);
 		this.gfx.fill("#0D0D0C");
 		this.snakeBtn.draw(this.gfx);
 	}
