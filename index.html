@@ -4,8 +4,61 @@
 <title>Arcade</title>
 </head>
 <body>
-<div id="part1" style="width: 40%;margin-left: 30%;margin-top:3%">
+<div style="width: 40%;margin-left: 30%;margin-top:3%">
 <canvas id="gameCanvas" width=1000px height=1100px style="width:100%;"></canvas>
 </div>
+<script>
+window.onload=function() {	
+	//Gets the canvas element
+	canvas = document.getElementById("gameCanvas");
+	
+	//Add event listeners
+	canvas.addEventListener("mousedown",mouseDown);	
+	canvas.addEventListener("mouseup",mouseUp);
+	canvas.addEventListener("mousemove",mouseMove);
+	document.addEventListener("keypress",keyPress);
+
+	//Get a context to draw onto
+	context = canvas.getContext("2d");
+	
+	game_size = canvas.width;
+	sidebar_height = canvas.width * 0.1;
+	
+	//Start game loop
+	setInterval(gameLoop,1000/30);
+}
+
+function gameLoop() {
+	context.fillStyle = "#5B5B5B";
+	context.fillRect(0,0,1000,1100);
+}
+
+function mouseDown(event) {
+	var x =  event.offsetX * (canvas.width / canvas.clientWidth);
+	var y = event.offsetY * (canvas.height / canvas.clientHeight);
+}
+
+function mouseUp(event) {
+	var x =  event.offsetX * (canvas.width / canvas.clientWidth);
+	var y = event.offsetY * (canvas.height / canvas.clientHeight);
+}
+
+function mouseMove(event) {
+	var x =  event.offsetX * (canvas.width / canvas.clientWidth);
+	var y = event.offsetY * (canvas.height / canvas.clientHeight);
+}
+
+function keyPress(event) {
+	var key = event.code;
+	var character = event.key;
+	
+	if (key.substr(0,3) == "Key") {
+		key = key.substr(3);
+	} else if (key.substr(0,5) == "Digit") {
+		key = key.substr(5);
+	}
+}
+
+</script>
 </body>
 </html>
